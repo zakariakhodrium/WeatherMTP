@@ -8,7 +8,6 @@ import requests
 import json
 import pandas as pd
 from datetime import  datetime, timedelta
-from tabulate import tabulate
 from IPython.display import display, HTML
 
 # Get today's date.
