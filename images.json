@@ -1,0 +1,118 @@
+{
+	"0":{
+		"desc":"Sunny",
+		"img":"Icons/wi-day-sunny.svg"
+	},
+	"1":{
+		"desc":"Mainly Sunny",
+		"img":"Icons/wi-day-sunny-overcast.svg"
+	},
+	"2":{
+		"desc":"Partly Cloudy",
+		"img":"Icons/wi-day-cloudy.svg"
+	},
+	"3":{
+		"desc":"Cloudy",
+		"img":"Icons/wi-cloud.svg"
+	},
+	"45":{
+		"desc":"Foggy",
+		"img":"Icons/wi-fog.svg"
+	},
+	"48":{
+		"desc":"Rime Fog",
+		"img":"Icons/wi-fog.svg"
+	},
+	"51":{
+		"desc":"Light Drizzle",
+		"img":"Icons/wi-sprinkle.svg"
+	},
+	"53":{
+		"desc":"Drizzle",
+		"img":"Icons/wi-sprinkle.svg"
+	},
+	"55":{
+		"desc":"Heavy Drizzle",
+		"img":"Icons/wi-sprinkle.svg"
+	},
+	"56":{
+		"desc":"Light Freezing Drizzle",
+		"img":"Icons/wi-sprinkle.svg"
+	},
+	"57":{
+		"desc":"Freezing Drizzle",
+		"img":"Icons/wi-sprinkle.svg"
+	},
+	"61":{
+		"desc":"Light Rain",
+		"img":"Icons/wi-showers.svg"
+	},
+	"63":{
+		"desc":"Rain",
+		"img":"Icons/wi-rain-wind.svg"
+	},
+	"65":{
+		"desc":"Heavy Rain",
+		"img":"Icons/wi-rain.svg"
+	},
+	"66":{
+		"desc":"Light Freezing Rain",
+		"img":"Icons/wi-rain.svg"
+	},
+	"67":{
+		"desc":"Freezing Rain",
+		"img":"Icons/wi-rain.svg"
+	},
+	"71":{
+		"desc":"Light Snow",
+		"img":"Icons/wi-snow.svg"
+	},
+	"73":{
+		"desc":"Snow",
+		"img":"Icons/wi-snow.svg"
+	},
+	"75":{
+		"desc":"Heavy Snow",
+		"img":"Icons/wi-snow.svg"
+	},
+	"77":{
+		"desc":"Snow Grains",
+		"img":"Icons/wi-snow.svg"
+	},
+	"80":{
+		"desc":"Light Showers",
+		"img":"Icons/wi-showers.svg"
+	},
+	"81":{
+		"desc":"Showers",
+		"img":"Icons/wi-showers.svg"
+	},
+	"82":{
+		"desc":"Heavy Showers",
+		"img":"Icons/wi-showers.svg"
+	},
+	"85":{
+		"desc":"Light Snow Showers",
+		"img":"Icons/wi-snow.svg"
+	},
+	"86":{
+		"desc":"Snow Showers",
+		"img":"Icons/wi-snow.svg"
+	},
+	"95":{
+		"desc":"Thunderstorm",
+		"img":"Icons/wi-storm-showers.svg"
+	},
+	"96":{
+		"desc":"Light Thunderstorms With Hail",
+		"img":"Icons/wi-storm-showers.svg"
+	},
+	"99":{
+		"desc":"Thunderstorm With Hail",
+		"img":"Icons/wi-thunderstorm.svg"
+	},
+	"404":{
+		"desc":"Thunderstorm With Hail",
+		"img":"Icons/X.svg"
+	}
+}
