@@ -1,11 +1,11 @@
 on:
   schedule:
-    - cron: "0 */4 * * *" # updated every 4 hours
+    - cron: "0 */4 * * *" 
   workflow_dispatch:
   push:
     branches: ["main"]
 
-name: Update
+name: Quarto Publish
 
 jobs:
   build-deploy:
@@ -26,6 +26,7 @@ jobs:
           cache: "pip"
       - run: python3 -m pip install jupyter
       - run: python3 -m pip install -r requirements.txt
+      
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
