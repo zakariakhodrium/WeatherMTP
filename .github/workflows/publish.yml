@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: "0 */4 * * *" 
+    - cron: "0 * * * *" 
   workflow_dispatch:
   push:
     branches: ["main"]
@@ -22,11 +22,10 @@ jobs:
       - name: Install Python and Dependencies
         uses: actions/setup-python@v4
         with:
-          python-version: "3.11.5"
+          python-version: "3.10"
           cache: "pip"
       - run: python3 -m pip install jupyter
       - run: python3 -m pip install -r requirements.txt
-      
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
