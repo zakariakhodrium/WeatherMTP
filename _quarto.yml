@@ -3,7 +3,6 @@ project:
   output-dir:  docs
   render : 
     - index.qmd
-    - about.qmd
 website:
   title: "Weather in Montpellier"
   navbar:
@@ -11,10 +10,7 @@ website:
     - icon : github
     href: https://github.com/zakariakhodrium/WeatherMTP 
     text : Github
-    left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
+ 
 
 format:
   html:
