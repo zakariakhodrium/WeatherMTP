@@ -1,6 +1,6 @@
- ---
-title: "Weather in Montpellier Today and forecasts of the next four days :"
----
+
+Weather in Montpellier today and forecasts of the next four days :
+
 ```{python}
 #|echo : false
 # Requirements

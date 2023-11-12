@@ -1,9 +1,16 @@
 project:
   type: website
   output-dir:  docs
+  render : 
+    - index.qmd
+    - about.qmd
 website:
   title: "Weather in Montpellier"
   navbar:
+    tools : 
+    - icon : github
+    href: https://github.com/zakariakhodrium/WeatherMTP 
+    text : Github
     left:
       - href: index.qmd
         text: Home
@@ -11,7 +18,7 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: lux
     css: styles.css
     toc: true
 
