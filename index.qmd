@@ -7,7 +7,7 @@ Weather in Montpellier today and forecasts of the next four days :
 import requests
 import json
 import pandas as pd
-from datetime import  datetime, timedelta
+from datetime import datetime, timedelta
 from IPython.display import display, HTML
 
 # Get today's date.
@@ -17,69 +17,70 @@ today_date = datetime.now()
 last_day = today_date + timedelta(days=4)
 
 # Formatting dates to YYYY-MM-DD.
-today_date_str = today_date.strftime('%Y-%m-%d')
-last_day_str = last_day.strftime('%Y-%m-%d')
+today_date_str = today_date.strftime("%Y-%m-%d")
+last_day_str = last_day.strftime("%Y-%m-%d")
 
 # Creating URL
-url = 'https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&timezone=auto'
-weather_url = f'{url}&start_date={today_date_str}&end_date={last_day_str}'
+url = "https://api.open-meteo.com/v1/meteofrance?latitude=43.6109&longitude=3.8763&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max&timezone=auto"
+weather_url = f"{url}&start_date={today_date_str}&end_date={last_day_str}"
 
 # Send a GET request to the URL
 response = requests.get(weather_url)
 
 if response.status_code == 200:  # Check if the request was successful
-    # Convert the JSON data to a python dictionary 
     data = response.json()
     # getting the data as lists and deal with missing values :
-    # get maximum tempurature 
-    # tempurature here is in Celsuis
+    # get maximum temperature
+    # temperature here is in Celsius
     max_temp = data["daily"]["temperature_2m_max"]
-    # return 0 if maximum tempurature is None
+    # return 0 if maximum temperature is None
     max_temp = [0 if value is None else value for value in max_temp]
-    # get minimum tempurature
-    # Same here the Tempurature is in Celsuis
-    
+    # get minimum temperature
+    # Same here the temperature is in Celsius
+
     min_temp = data["daily"]["temperature_2m_min"]
-    # return 0 if minimum value is 
+    # return 0 if minimum value is
     min_temp = [0 if value is None else value for value in min_temp]
     # get the weather code
-    
+
     wmo = data["daily"]["weather_code"]
     # return 404 when the value is none
     wmo = [i if not pd.isna(i) else 404 for i in wmo]
     # get the value of precipitation
-    # the value here is in milimeter 'mm' 
-    
+    # the value here is in millimeter 'mm'
+
     precipitations = data["daily"]["precipitation_sum"]
     # return 0 if the precipitation is None
     precipitations_sum = [0 if value is None else value for value in precipitations]
-    
+
     # get the win speed
     # the speed of wind is in km/h
     wind_speed = data["daily"]["wind_speed_10m_max"]
-    # return 0 if wind speed is None 
+    # return 0 if wind speed is None
     wind_speed = [0 if value is None else value for value in wind_speed]
-    
+
     # get the dates :
-    # note that the date's data type is string 
+    # note that the date's data type is string
     date = data["daily"]["time"]
-else: 
-# Display an error message if the request is failed
+else:
+    # Display an error message if the request is failed
     print("Error while getting weather data")
+
 
 # Create a function to convert dates from strings to a specific date format.
 def date_convert(date):
     # date is a list with str elements
-    # return the day name and the the date and month 
-    # example date_convert('18-09-2024') 
+    # return the day name and the the date and month
+    # example date_convert('18-09-2024')
     # we get WED, 18/09
-    f_date = datetime.strptime(date, '%Y-%m-%d')
-    day_name = datetime.strftime(f_date,'%A')
-    day_month = datetime.strftime(f_date,'%d/%m')
+    f_date = datetime.strptime(date, "%Y-%m-%d")
+    day_name = datetime.strftime(f_date, "%A")
+    day_month = datetime.strftime(f_date, "%d/%m")
     return day_name, day_month
 
-# using the zip function to mapp the function on values of date
-# and get two lists one for days name abreviation and the other one for the date in MM/DD format for example : 
+
+# using the zip function to map the function on values of date
+# and get two lists one for days name abbreviation and the other one for the date in MM/DD format for example :
 # date = ['18-09-2024','15-11-2025']
 # we get :
 # days_name = ['Wed','Sun']
@@ -87,77 +88,68 @@ def date_convert(date):
 days_name, dates = zip(*[date_convert(i) for i in date])
 
 # generating images for each code that appears in our list:
-# Load JSON in a dictionnary
-with open('images.json', 'r') as json_file:
+# Load JSON in a dictionary
+with open("images.json", "r") as json_file:
     data = json.load(json_file)
 
-# create a dictionnay to associatee codes with description and images 
+# create a dictionary to associated codes with description and images
 associated_wmo = {str(key): value for key, value in data.items()}
 
 # get the image and the description from the WMO codes.
 desc_img = []
 for i in wmo:
     get = associated_wmo[str(i)]
-    desc_img.append(
-        {'desc': get['desc'], 'img': get['img']})
+    desc_img.append({"desc": get["desc"], "img": get["img"]})
 
 ## insert an html code here 
 html_code = f"""
-<head> 
-<!-- we used google fonts to get some icons -->
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons"link rel="stylesheet"> 
-<link rel="stylesheet" href="styles.css">
+<head>
+   <!-- we used google fonts to get some icons -->
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"link rel="stylesheet">
+   <link rel="stylesheet" href="styles.css">
 </head>
 <table class= 'Wtable'>
-        <!-- Tables header displays the day and the date in DD/MM -->
-
-        <tr title="Date" style = "background-color : rgb(222, 236, 252)">
-            <th style = "border-top:3px solid rgb(157, 216, 250);border-right:3px solid rgb(157, 216, 250);border-left:3px solid rgb(157, 216, 250)"><strong>{days_name[0]}</strong><br> Today </th>
-            <th><strong>{days_name[1]}</strong><br> Tomorrow </th>
-            <th><strong>{days_name[2]}</strong><br> {dates[2]}</th>
-            <th><strong>{days_name[3]}</strong><br> {dates[3]}</th>
-            <th><strong>{days_name[4]}</strong><br> {dates[4]}</th>
-        </tr>
-
-        <!-- Second row displays an icon that represents the weather and an associated description  -->
-
-        <tr title = "icons" style="background-color: rgb(174, 222, 252)">
-            <td style="border-right:3px solid rgb(157, 216, 250);border-left:3px solid rgb(157, 216, 250)"><img src= "{desc_img[0]['img']}" title="{desc_img[0]['desc']}"><strong>{desc_img[0]['desc']}</strong></td>
-            <td><img src= "{desc_img[1]['img']}" title="{desc_img[1]['desc']}"><strong>{desc_img[1]['desc']}</strong></td>
-            <td><img src= "{desc_img[2]['img']}" title="{desc_img[2]['desc']}"><strong>{desc_img[2]['desc']}</strong></td>
-            <td><img src= "{desc_img[3]['img']}" title="{desc_img[3]['desc']}"><strong>{desc_img[3]['desc']}</strong></td>
-            <td><img src= "{desc_img[4]['img']}" title="{desc_img[4]['desc']}"><strong>{desc_img[4]['desc']}</strong></td>
-        </tr>
-
-        <!-- Third row displays a rounded result of the minimum and the maximum tempurature during the day in Celsuis-->
-
-        <tr title = "Tempurature" style="background-color : white">
-            <td style="border-right:3px solid rgb(157, 216, 250);border-left:3px solid rgb(157, 216, 250)"><span class="material-icons">thermostat</span> {round(min_temp[0])}°C - {round(max_temp[0])}°C </td>
-            <td><span class="material-icons">thermostat</span> {round(min_temp[1])}°C - {round(max_temp[1])}°C </td>
-            <td><span class="material-icons">thermostat</span> {round(min_temp[2])}°C - {round(max_temp[2])}°C </td>
-            <td><span class="material-icons">thermostat</span> {round(min_temp[3])}°C - {round(max_temp[3])}°C </td>
-            <td><span class="material-icons">thermostat</span> {round(min_temp[4])}°C - {round(max_temp[4])}°C </td>
-        </tr>
-
-        <!-- Fourth row in this table displays a rounded result of wind speed during the day in Km/h  -->
-
-        <tr title = "Wind Speed" style="background-color : rgb(222, 236, 252)">
-            <td style="border-right:3px solid rgb(157, 216, 250);border-left:3px solid rgb(157, 216, 250)"><span class="material-icons">air</span> {round(wind_speed[0])} Km/h</td>
-            <td><span class="material-icons">air</span> {round(wind_speed[1])} Km/h</td>
-            <td><span class="material-icons">air</span> {round(wind_speed[2])} Km/h</td>
-            <td><span class="material-icons">air</span> {round(wind_speed[3])} Km/h</td>
-            <td><span class="material-icons">air</span> {round(wind_speed[4])} Km/h</td>
-        </tr>
-
-        <!-- Last row shows the amount of precipitation during the day in mili meter  -->
-        <tr title = "Precipitation" style="background-color : rgb(222, 236, 252)">
-            <td style="border-bottom:3px solid rgb(157, 216, 250);border-right:3px solid rgb(157, 216, 250);border-left:3px solid rgb(157, 216, 250)"><span class="material-icons">water_drop</span> {round(precipitations_sum[0])} mm</td>
-            <td><span class="material-icons">water_drop</span> {(precipitations_sum[1])} mm</td>
-            <td><span class="material-icons">water_drop</span> {(precipitations_sum[2])} mm</td>
-            <td><span class="material-icons">water_drop</span> {(precipitations_sum[3])} mm</td>
-            <td><span class="material-icons">water_drop</span> {(precipitations_sum[4])} mm</td>
-        </tr>
-    </table>
+   <!-- Tables header displays the day and the date in DD/MM -->
+   <tr title="Date" style = "background-color : rgb(222, 236, 252)">
+      <th style = "border-top:3px solid rgb(157, 216, 250);border-right:3px solid rgb(157, 216, 250);border-left:3px solid rgb(157, 216, 250)"><strong>{days_name[0]}</strong><br> Today </th>
+      <th><strong>{days_name[1]}</strong><br> Tomorrow </th>
+      <th><strong>{days_name[2]}</strong><br> {dates[2]}</th>
+      <th><strong>{days_name[3]}</strong><br> {dates[3]}</th>
+      <th><strong>{days_name[4]}</strong><br> {dates[4]}</th>
+   </tr>
+   <!-- Second row displays an icon that represents the weather and an associated description  -->
+   <tr title = "icons" style="background-color: rgb(174, 222, 252)">
+      <td style="border-right:3px solid rgb(157, 216, 250);border-left:3px solid rgb(157, 216, 250)"><img src= "{desc_img[0]['img']}" title="{desc_img[0]['desc']}"><strong>{desc_img[0]['desc']}</strong></td>
+      <td><img src= "{desc_img[1]['img']}" title="{desc_img[1]['desc']}"><strong>{desc_img[1]['desc']}</strong></td>
+      <td><img src= "{desc_img[2]['img']}" title="{desc_img[2]['desc']}"><strong>{desc_img[2]['desc']}</strong></td>
+      <td><img src= "{desc_img[3]['img']}" title="{desc_img[3]['desc']}"><strong>{desc_img[3]['desc']}</strong></td>
+      <td><img src= "{desc_img[4]['img']}" title="{desc_img[4]['desc']}"><strong>{desc_img[4]['desc']}</strong></td>
+   </tr>
+   <!-- Third row displays a rounded result of the minimum and the maximum temperature during the day in Celsius-->
+   <tr title = "Min and Max Temperature" style="background-color : white">
+      <td style="border-right:3px solid rgb(157, 216, 250);border-left:3px solid rgb(157, 216, 250)"><span class="material-icons">thermostat</span> {round(min_temp[0])}°C - {round(max_temp[0])}°C </td>
+      <td><span class="material-icons">thermostat</span> {round(min_temp[1])}°C - {round(max_temp[1])}°C </td>
+      <td><span class="material-icons">thermostat</span> {round(min_temp[2])}°C - {round(max_temp[2])}°C </td>
+      <td><span class="material-icons">thermostat</span> {round(min_temp[3])}°C - {round(max_temp[3])}°C </td>
+      <td><span class="material-icons">thermostat</span> {round(min_temp[4])}°C - {round(max_temp[4])}°C </td>
+   </tr>
+   <!-- Fourth row in this table displays a rounded result of wind speed during the day in Km/h  -->
+   <tr title = "Wind Speed" style="background-color : rgb(222, 236, 252)">
+      <td style="border-right:3px solid rgb(157, 216, 250);border-left:3px solid rgb(157, 216, 250)"><span class="material-icons">air</span> {round(wind_speed[0])} Km/h</td>
+      <td><span class="material-icons">air</span> {round(wind_speed[1])} Km/h</td>
+      <td><span class="material-icons">air</span> {round(wind_speed[2])} Km/h</td>
+      <td><span class="material-icons">air</span> {round(wind_speed[3])} Km/h</td>
+      <td><span class="material-icons">air</span> {round(wind_speed[4])} Km/h</td>
+   </tr>
+   <!-- Last row shows the amount of precipitation during the day in millimeter  -->
+   <tr title = "Precipitation" style="background-color : rgb(222, 236, 252)">
+      <td style="border-bottom:3px solid rgb(157, 216, 250);border-right:3px solid rgb(157, 216, 250);border-left:3px solid rgb(157, 216, 250)"><span class="material-icons">water_drop</span> {round(precipitations_sum[0])} mm</td>
+      <td><span class="material-icons">water_drop</span> {(precipitations_sum[1])} mm</td>
+      <td><span class="material-icons">water_drop</span> {(precipitations_sum[2])} mm</td>
+      <td><span class="material-icons">water_drop</span> {(precipitations_sum[3])} mm</td>
+      <td><span class="material-icons">water_drop</span> {(precipitations_sum[4])} mm</td>
+   </tr>
+</table>
 """
 display(HTML(html_code))
 ```
