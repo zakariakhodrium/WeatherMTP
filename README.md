@@ -11,7 +11,7 @@ We displayed the following information about the weather for today and forecasts
 ## Packages description for the project : 
 - My approach to this problem was to keep it as simple as possible with the least amount of code.
 - Our data is fetched from the website of [open_meteo.com](https://open-meteo.com/en/docs/meteofrance-api) where we used **requests** and saved them in a JSON file (JavaScript Object Notation).
-- To make it refresh updated everyday, we used Github Action to trigger a workflow each **[insert here an] hour** and deploy it using github pages.
+- To make it refresh updated everyday, we used Github Action to trigger a workflow each **2 hours** and deploy it using github pages.
 - And we had to pre-process the data using **Pandas** and fix the missing values.
 - To display the html code, we used the module **Ipython.display**.
 - We used **[Black](https://github.com/psf/black)** to format our python code.
